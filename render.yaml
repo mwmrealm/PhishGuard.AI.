@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: phishguard-ai-api
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: PHISHGUARD_ALLOWED_ORIGINS
+        value: "*"

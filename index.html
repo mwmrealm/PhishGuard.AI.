@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#173b78">
+  <meta name="description" content="PhishGuard AI helps identify suspicious and phishing emails.">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>PhishGuard AI — Email Security</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icons/icon-192.png">
+  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./config.js"></script>
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="PhishGuard AI home">
+        <img src="./icons/icon-192.png" alt="" class="brand-mark">
+        <span><strong>PhishGuard <em>AI</em></strong><small>Email security scanner</small></span>
+      </a>
+      <div class="header-actions">
+        <span id="connection" class="connection"><i></i><span>Checking connection</span></span>
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode" title="Toggle theme">☾</button>
+        <button class="install-btn" id="installBtn" hidden>Install app</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="pulse"></span> PERSONAL EMAIL DEFENCE</div>
+          <h1>Stop phishing<br><span>before it starts.</span></h1>
+          <p>Inspect suspicious emails, uncover risky links and understand the warning signs before you click.</p>
+          <div class="hero-points"><span>✓ Private by design</span><span>✓ AI-assisted analysis</span><span>✓ Installable PWA</span></div>
+        </div>
+        <div class="hero-art"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><img src="./logo.png" alt="PhishGuard AI shield and protected email"></div>
+      </section>
+
+      <nav class="tabs" aria-label="Main navigation">
+        <button class="tab active" data-tab="single"> <span>⌕</span> Email scan</button>
+        <button class="tab" data-tab="batch"><span>▤</span> Batch scan</button>
+        <button class="tab" data-tab="guide"><span>盾</span> How it works</button>
+      </nav>
+
+      <section id="single" class="view">
+        <div class="section-heading"><div><div class="eyebrow">ANALYSIS WORKSPACE</div><h2>Scan an email</h2><p>Paste the complete message, including headers when available.</p></div><span class="secure-pill">⌑ Secure scan</span></div>
+        <div class="workspace card">
+          <div class="field-label"><label for="emailInput">EMAIL CONTENT</label><span id="charCount">0 characters</span></div>
+          <textarea id="emailInput" spellcheck="false" placeholder="Paste the email source or message here…"></textarea>
+          <div class="toolbar">
+            <div class="sample-actions"><button class="btn btn-soft" id="safeSample">Load safe sample</button><button class="btn btn-soft warning-soft" id="phishSample">Load phishing sample</button></div>
+            <button class="btn btn-ghost" id="clearBtn">Clear</button>
+          </div>
+          <div class="scan-row"><div class="privacy-note"><span>◈</span> Email content is sent only to your configured analysis server. Local fallback uses browser-side checks.</div><button class="btn btn-primary" id="analyzeBtn"><span>⌕</span> Analyse email</button></div>
+          <div id="error" class="error" role="alert" hidden></div>
+        </div>
+        <section id="resultArea" class="results" hidden aria-live="polite">
+          <div class="result-top">
+            <div class="card verdict-card"><div class="result-label">ASSESSMENT</div><div id="verdict" class="verdict">—</div><p id="verdictNote">Analysis complete</p><div class="meter"><div id="meterFill"></div></div><div class="score-line"><span>Risk score</span><strong><span id="score">0</span> / 12+</strong></div></div>
+            <div class="card ai-card"><div class="result-label">MACHINE LEARNING</div><div class="ai-icon">✳</div><h3 id="aiTitle">AI status</h3><p id="aiText">Connect the backend to enable model-assisted predictions.</p><div id="modeTag" class="mode-tag">Browser checks</div></div>
+          </div>
+          <div class="result-grid">
+            <div class="card"><div class="card-heading"><h3>Detection signals</h3><span class="subtle">WHY IT WAS FLAGGED</span></div><div id="breakdown" class="chips"></div></div>
+            <div class="card"><div class="card-heading"><h3>Findings</h3><span class="subtle">ANALYSIS DETAILS</span></div><ul id="reasons" class="reason-list"></ul></div>
+          </div>
+          <div class="card"><div class="card-heading"><h3>Link inspector</h3><span class="subtle">URLS FOUND IN MESSAGE</span></div><div id="urls" class="url-list"></div></div>
+          <p class="disclaimer">A “Safe” result is not a guarantee. Detection can miss new or targeted attacks. Verify unexpected requests through a trusted channel.</p>
+        </section>
+      </section>
+
+      <section id="batch" class="view" hidden>
+        <div class="section-heading"><div><div class="eyebrow">MULTI-MESSAGE WORKSPACE</div><h2>Batch scan</h2><p>Check multiple messages in one run, or upload a CSV file.</p></div></div>
+        <div class="card workspace"><div class="field-label"><label for="batchInput">EMAILS</label><span>Separate messages with a line containing ====</span></div><textarea id="batchInput" placeholder="Paste email 1…&#10;====&#10;Paste email 2…" spellcheck="false"></textarea><div class="toolbar"><button class="btn btn-soft" id="csvBtn">Upload CSV</button><input type="file" id="csvInput" accept=".csv,text/csv" hidden><button class="btn btn-primary" id="batchBtn">Run batch scan</button></div><div id="batchError" class="error" hidden role="alert"></div></div>
+        <div class="card batch-output"><div class="card-heading"><h3>Batch results</h3><span id="batchTotal" class="subtle">READY WHEN YOU ARE</span></div><div id="batchResults" class="empty-state">Your scan results will appear here.</div></div>
+      </section>
+
+      <section id="guide" class="view" hidden>
+        <div class="section-heading"><div><div class="eyebrow">KNOW THE WARNING SIGNS</div><h2>How PhishGuard works</h2><p>Multiple signals help explain why an email may be risky.</p></div></div>
+        <div class="guide-grid">
+          <article class="card guide-card"><span class="guide-number">01</span><h3>Header analysis</h3><p>Checks sender and Reply-To domain mismatches, plus suspicious display-name claims.</p></article>
+          <article class="card guide-card"><span class="guide-number">02</span><h3>Link inspection</h3><p>Looks for IP-based links, URL shorteners, lookalike domains and insecure login links.</p></article>
+          <article class="card guide-card"><span class="guide-number">03</span><h3>AI-assisted detection</h3><p>When connected to the Flask backend and a compatible model, a TF-IDF and Logistic Regression model adds a phishing probability estimate.</p></article>
+          <article class="card guide-card"><span class="guide-number">04</span><h3>Message signals</h3><p>Highlights urgency, sensitive-data requests, risky attachment types and common misspellings.</p></article>
+        </div>
+        <div class="card guide-note"><h3>Understand the verdict</h3><div class="verdict-key"><span class="dot safe"></span><b>Safe</b><span>Few known indicators were detected.</span></div><div class="verdict-key"><span class="dot suspicious"></span><b>Suspicious</b><span>Some warning signs need your attention.</span></div><div class="verdict-key"><span class="dot danger"></span><b>Dangerous</b><span>Several strong indicators or a high model score were found.</span></div><p class="disclaimer">This tool is for educational and defensive use. Do not open attachments or follow links simply because a scan labels an email safe.</p></div>
+      </section>
+    </main>
+    <footer><span>© PhishGuard AI</span><span>Built for safer inboxes · <a href="https://github.com/" target="_blank" rel="noreferrer">GitHub</a></span></footer>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
